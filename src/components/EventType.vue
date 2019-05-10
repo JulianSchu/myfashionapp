@@ -1,7 +1,7 @@
 <template>
   <div>
-    <img class="w-100 h-auto" :src="chosenEvent.typeImg" alt="type.jpg">
-    <p>{{chosenEvent.eventType}}</p>
+    <img class="w-100 h-auto" :src="eventImg" alt="type.jpg">
+    <p>{{oneEvent.type_name}}</p>
   </div>
 </template>
 
@@ -9,12 +9,12 @@
 export default {
   name: "EventType",
   props: {
-    chosenEvent: Object
+    oneEvent: Object
   },
-  data () {
-      return {
-          counter: this.chosenEvent
-      }
+  data(){
+    return {
+      eventImg: require('../assets/' + this.oneEvent.type_image + '.jpg')
+    }
   }
 };
 </script>

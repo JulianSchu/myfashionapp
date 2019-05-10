@@ -5,7 +5,7 @@
     <div class="container-fluid bg-light px-0 pt-3">
       <div class="container d-flex flex-wrap justify-content-around align-content-around p-3">
         <div class="col-6 d-flex flex-wrap justify-content-center" v-for="(event, index) in event_types" :key="index">
-          <EventType :chosenEvent="{eventType: event.type_name, typeImg: event.type_image_url}"/>
+          <EventType :oneEvent="event"/>
         </div>
       </div>
     </div>
@@ -16,6 +16,7 @@
 // @ is an alias to /src
 import Fashheader from "@/components/Fashheader.vue";
 import EventType from "@/components/EventType.vue";
+import Navbar from "@/components/Navbar.vue";
 
 export default {
   name: "Chosen",
@@ -30,12 +31,12 @@ export default {
       sector_types: Array,
       events: Array,
       headliners: Array
-      // event_type_img: [{url: }]
     };
   },
   components: {
     Fashheader,
-    EventType
+    EventType,
+    Navbar
   },
   methods: {
     fetchData() {
@@ -64,7 +65,6 @@ export default {
           this.events = data.values.events;
           this.headliners = data.values.headliners;
           this.event_types.forEach(element => {
-            element.type_image_url = "../assets/" + element.type_image + ".jpg";
           });
           console.log(this.event_types);
         })
