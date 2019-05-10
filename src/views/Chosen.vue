@@ -3,21 +3,21 @@
     <Fashheader/>
     <div class="d-flex flex-wrap justify-content-around align-items-center">
       <i class="fas fa-filter"></i>
-      <h5 class="p-2 text-center">{{this.chosenName}}</h5>
+      <h5 class="p-2 text-center">{{chosenName}}</h5>
       <i class="fas fa-step-backward"></i>
     </div>
     <div class="container-fluid bg-light px-0 py-3">
       <Carousel :headliner="headliners"/>
       <div class="container d-flex flex-wrap justify-content-around align-content-around p-0 py-3">
         <div class="col-12">
-          <h5>All Events in {{this.chosenName}}</h5>
+          <h5>All Events in {{chosenName}}</h5>
         </div>
         <div
           class="col-6 col-lg-3 d-flex flex-wrap justify-content-center py-3"
           v-for="(event, index) in event_types"
           :key="index"
         >
-          <EventType :oneEvent="event"/>
+          <EventType :chosenCity="chosenCity" :chosenName="chosenName" :oneEvent="event"/>
         </div>
       </div>
     </div>

@@ -43,11 +43,6 @@ export default {
 </script>
 
 <style scoped>
-.router-link,
-.router-link:hover {
-  text-decoration: none;
-}
-
 small {
  font-family: 'Limelight', cursive;
 }

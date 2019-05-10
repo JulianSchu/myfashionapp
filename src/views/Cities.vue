@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-none d-md-block">
-
+      <Fashheader/>
     </div>
     <div class="container-fluid px-0 p-md-2 d-flex flex-wrap align-items-center">
       <div class="col-12 col-lg-6 p-0 p-md-2" v-for="(city, index) in cities" :key="index">
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Fashheader from "@/components/Fashheader.vue";
+import Fashheader from "@/components/Fashheader.vue"
 
 export default {
   name: "Cities",
@@ -89,10 +89,6 @@ export default {
 .router-link {
   min-height: 250px;
   position: relative;
-}
-
-.router-link:hover {
-  text-decoration: none;
 }
 
 p {

@@ -12,4 +12,9 @@
 .container {
   max-width: 900px;
 }
+
+.router-link,
+.router-link:hover {
+  text-decoration: none;
+}
 </style>
