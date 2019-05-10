@@ -1,7 +1,10 @@
 <template>
-  <div>
+  <div class="m-1">
     <img class="w-100 h-auto" :src="eventImg" alt="type.jpg">
-    <p>{{oneEvent.type_name}}</p>
+    <div class="py-2">
+      <p class="mb-0 font-weight-bold">{{oneEvent.type_name}}</p>
+      <p class="mb-0 text-muted">{{oneEvent.type_description_en}}</p>
+    </div>
   </div>
 </template>
 
@@ -11,10 +14,10 @@ export default {
   props: {
     oneEvent: Object
   },
-  data(){
+  data() {
     return {
-      eventImg: require('../assets/' + this.oneEvent.type_image + '.jpg')
-    }
+      eventImg: require("../assets/" + this.oneEvent.type_name + ".jpg")
+    };
   }
 };
 </script>
@@ -25,6 +28,6 @@ p {
 }
 
 img {
-    max-width: 400px;
+  max-width: 400px;
 }
 </style>
