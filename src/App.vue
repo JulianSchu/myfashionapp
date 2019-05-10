@@ -9,4 +9,7 @@
 </template>
 
 <style>
+.container {
+  max-width: 900px;
+}
 </style>

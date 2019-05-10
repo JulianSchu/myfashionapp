@@ -1,6 +1,6 @@
 <template>
   <div class="container mb-3">
-    <h5>Top Events to visit</h5>
+    <h5 class="pb-2">Top Events to visit</h5>
     <div id="headliners" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
         <div
@@ -34,9 +34,6 @@
   </div>
 </template>
 
-
-
-
 <script>
 export default {
   name: "Carousel",
@@ -53,7 +50,7 @@ export default {
 
 <style scoped>
 .headline {
-  max-height: 400px;
+  max-height: 450px;
   width: 100%;
   overflow: hidden;
 }
@@ -66,9 +63,5 @@ export default {
 .carousel-control-next {
   height: auto;
   width: auto;
-}
-
-.card-img-overlay {
-  z-index: +1;
 }
 </style>
