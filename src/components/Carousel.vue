@@ -9,17 +9,17 @@
           :key="index"
           data-interval="3000"
         >
-          <div class="headline card bg-dark border-0 rounded-0">
+          <router-link :to="{name:'ChosenEvent', params:{oneEvent: each, chosenCity: chosenCity, chosenName: chosenName}}" class="headline card bg-dark border-0 rounded-0">
             <div class="overflow-hidden">
               <img class="card-img rounded-0" :src="each.event_card_url" alt="headliner.jpg">
             </div>
             <div class="card-img-overlay p-0 py-3 d-flex flex-column justify-content-end">
               <div class="w-100 bg py-2">
-                <h5 class="m-2 font-weight-bold">{{each.event_name}}</h5>
+                <h5 class="m-2 font-weight-bold text-dark">{{each.event_name}}</h5>
                 <p class="m-2 text-dark">{{each.headliner_copy_en}}</p>
               </div>
             </div>
-          </div>
+          </router-link>
         </div>
       </div>
       <a class="carousel-control-prev ml-2" href="#headliners" role="button" data-slide="prev">
@@ -38,7 +38,9 @@
 export default {
   name: "Carousel",
   props: {
-    headliner: Array
+    headliner: Array,
+    chosenCity: String,
+    chosenName: String
   },
   data() {
     return {

@@ -8,6 +8,7 @@ import Profile from './views/Profile.vue'
 import Calender from './views/Calender.vue'
 import News from './views/News.vue'
 import Chats from './views/Chats.vue'
+import ChosenEvent from './views/ChosenEvent.vue'
 
 Vue.use(Router)
 
@@ -59,6 +60,12 @@ export default new Router({
       path: '/chats',
       name: 'Chats',
       component: Chats,
+      props: true
+    },
+    {
+      path: '/chosenevent',
+      name: 'ChosenEvent',
+      component: ChosenEvent,
       props: true
     }
   ]

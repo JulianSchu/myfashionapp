@@ -7,7 +7,7 @@
       <i class="fas fa-step-backward"></i>
     </div>
     <div class="container-fluid bg-light px-0 py-3">
-      <Carousel :headliner="headliners"/>
+      <Carousel :headliner="headliners" :chosenCity="chosenCity" :chosenName="chosenName"/>
       <div class="container d-flex flex-wrap justify-content-around align-content-around p-0 py-3">
         <div class="col-12">
           <h5>All Events in {{chosenName}}</h5>

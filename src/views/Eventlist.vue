@@ -7,12 +7,12 @@
       <i class="fas fa-step-backward"></i>
     </div>
     <div class="container-fluid bg-light px-0 py-3">
-      <div class="container d-flex flex-wrap justify-content-around align-content-around p-0 py-3">
+      <div class="container d-flex flex-wrap align-content-around p-0 py-3">
         <div class="col-12">
           <h5>{{chosenEventName}}</h5>
         </div>
         <div
-          class="col-12 col-md-6 d-flex flex-wrap justify-content-center py-3"
+          class="col-12 col-md-6 d-flex flex-wrap py-3"
           v-for="(event, index) in events"
           :key="index"
         >
@@ -20,28 +20,27 @@
         </div>
       </div>
     </div>
-  <Navbar/>
-    </div>
- 
+    <Navbar/>
+  </div>
 </template>
 
 <script>
 import Fashheader from "@/components/Fashheader.vue";
 import Navbar from "@/components/Navbar.vue";
-import EachEvent from "@/components/EachEvent.vue"
+import EachEvent from "@/components/EachEvent.vue";
 
 export default {
-  name: 'Eventlist',
+  name: "Eventlist",
   props: {
     chosenEventName: String,
     chosenEventValue: String,
     chosenCity: String,
     chosenName: String
   },
-  data () {
+  data() {
     return {
       events: []
-    }
+    };
   },
   components: {
     Fashheader,
@@ -51,21 +50,20 @@ export default {
   methods: {
     fetchData() {
       let url =
-        "https://chicmi.p.rapidapi.com/calendar_in_city/?days=7" + "&types="+ this.chosenEventValue + "&max_results=0" +
+        "https://chicmi.p.rapidapi.com/calendar_in_city/?days=7" +
+        "&types=" +
+        this.chosenEventValue +
+        "&max_results=0" +
         "&city=" +
         this.chosenCity;
-        console.log(url)
+      console.log(url);
 
-      fetch(
-        url,
-        {
-          headers: {
-            "X-RapidAPI-Host": "chicmi.p.rapidapi.com",
-            "X-RapidAPI-Key":
-              "69f6e2d4e8mshb890a3d98c0a4efp119267jsna32dc2df9119"
-          }
+      fetch(url, {
+        headers: {
+          "X-RapidAPI-Host": "chicmi.p.rapidapi.com",
+          "X-RapidAPI-Key": "69f6e2d4e8mshb890a3d98c0a4efp119267jsna32dc2df9119"
         }
-      )
+      })
         .then(res => res.json())
         .then(data => {
           console.log(data);
@@ -84,5 +82,5 @@ export default {
   mounted() {
     this.fetchData();
   }
-}
+};
 </script>

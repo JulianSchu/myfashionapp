@@ -1,9 +1,9 @@
 <template>
-  <div class="col-12 p-0 d-flex flex-wrap">
+  <router-link :to="{name:'ChosenEvent', params:{oneEvent: oneEvent, chosenCity: chosenCity, chosenName: chosenName}}" class="router-link col-12 p-0 d-flex flex-wrap bg-white shadow">
     <div class="col-6 col-sm-4 col-md-5 p-0">
-      <img class="w-100" :src="oneEvent.event_card_url" alt="type.jpg">
+      <img class="w-100" :src="oneEvent.event_card_url" alt="event.jpg">
     </div>
-    <div class="col-6 col-sm-8 col-md-7 d-flex flex-wrap align-items-start">
+    <div class="col-6 col-sm-8 col-md-7 d-flex flex-wrap align-items-start p-2 pb-0">
       <div>
         <p class="mb-0 text-dark font-weight-bold">{{oneEvent.event_name_en}}</p>
         <p class="mb-0 text-info">{{oneEvent.event_eligibility_type}}</p>
@@ -11,7 +11,7 @@
         <img class="logo" :src="oneEvent.event_logo_url" alt="logo.jpg">
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
