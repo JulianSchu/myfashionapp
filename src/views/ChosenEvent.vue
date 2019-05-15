@@ -1,28 +1,33 @@
 <template>
   <div>
     <Fashheader/>
-    <div class="d-flex flex-wrap justify-content-around align-items-center">
-      <i class="fas fa-filter"></i>
-      <h5 class="p-2 text-center">{{chosenName}}</h5>
-      <i class="fas fa-step-backward"></i>
-    </div>
+    <CurrentCity/>
     <div class="container-fluid bg-light px-0 py-3">
       <div class="container d-flex flex-wrap justify-content-around align-content-around p-0 py-3">
         <div class="col-12">
           <h5>{{oneEvent.event_name}}</h5>
         </div>
         <div class="col-12 col-sm-6 col-md-5 pt-3">
-          <img class="w-100" data-toggle="modal" data-target="#largepic" :src="oneEvent.event_card_url" alt="type.jpg">
+          <img
+            class="w-100"
+            data-toggle="modal"
+            data-target="#largepic"
+            :src="oneEvent.event_card_url"
+            alt="type.jpg"
+          >
           <Modal :oneEvent="oneEvent"/>
           <div class="d-flex flex-wrap">
             <div class="col-6 p-0 pt-3">
-            <i class="far fa-heart pr-3"></i>
-            <i class="fas fa-plus px-3"></i>
-            <i class="fas fa-share pl-3"></i>
-          </div>
-          <div class="col-6 p-0 pt-3 text-right">
-            <a class="detail-link text-info" :href="oneEvent.detail_url">Learn more>>></a>
-          </div>
+              <i class="far fa-heart pr-3"></i>
+              <i class="fas fa-plus px-3"></i>
+              <i class="fas fa-share pl-3"></i>
+            </div>
+            <div class="col-6 p-0 pt-3 text-right">
+              <a
+                class="detail-link text-info"
+                @click="newTab(oneEvent.action_url || oneEvent.detail_url)"
+              >Learn more >>></a>
+            </div>
           </div>
         </div>
         <div class="col-12 col-sm-6 col-md-7 d-flex flex-wrap align-items-start py-3">
@@ -50,7 +55,6 @@
         </div>
       </div>
     </div>
-
     <Navbar/>
   </div>
 </template>
@@ -59,18 +63,25 @@
 import Fashheader from "@/components/Fashheader.vue";
 import Navbar from "@/components/Navbar.vue";
 import Modal from "@/components/Modal.vue";
+import CurrentCity from "@/components/CurrentCity.vue";
 
 export default {
   name: "ChosenEvent",
-  props: {
-    oneEvent: Object,
-    chosenName: String,
-    chosenCity: String
-  },
   components: {
     Fashheader,
+    CurrentCity,
     Navbar,
     Modal
+  },
+  computed: {
+    oneEvent() {
+      return this.$store.state.chosenEvent;
+    }
+  },
+  methods: {
+    newTab(link) {
+      window.open(link, "_blank");
+    }
   }
 };
 </script>
@@ -80,10 +91,6 @@ p {
   font-family: "Mukta Mahee", sans-serif;
 }
 
-img {
-  /* min-width: 150px;
-  max-width: 400px; */
-}
 .logo {
   min-width: 30px;
   max-width: 40px;
@@ -91,6 +98,7 @@ img {
 
 a,
 a:hover {
-  text-decoration: none 
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>

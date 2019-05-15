@@ -1,9 +1,9 @@
 <template>
-  <router-link :to="{name:'ChosenEvent', params:{oneEvent: oneEvent, chosenCity: chosenCity, chosenName: chosenName}}" class="router-link col-12 p-0 d-flex flex-wrap bg-white shadow">
-    <div class="col-6 col-sm-4 col-md-5 p-0">
+  <router-link to="/chosenevent" class="router-link col-12 p-0 d-flex flex-wrap bg-white shadow">
+    <div class="col-6 col-sm-4 col-md-5 p-0" @click="setEvent(oneEvent)">
       <img class="w-100" :src="oneEvent.event_card_url" alt="event.jpg">
     </div>
-    <div class="col-6 col-sm-8 col-md-7 d-flex flex-wrap align-items-start p-2 pb-0">
+    <div class="col-6 col-sm-8 col-md-7 d-flex flex-wrap align-items-start p-2 pb-0" @click="setEvent(oneEvent)">
       <div>
         <p class="mb-0 text-dark font-weight-bold">{{oneEvent.event_name_en}}</p>
         <p class="mb-0 text-info">{{oneEvent.event_eligibility_type}}</p>
@@ -15,12 +15,15 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: "EachEvent",
   props: {
-    oneEvent: Object,
-    chosenName: String,
-    chosenCity: String
+    oneEvent: Object
+  },
+  methods: {
+   ...mapActions(["setEvent"])
   }
 };
 </script>

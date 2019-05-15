@@ -5,9 +5,13 @@
     </div>
     <div class="container-fluid px-0 p-md-2 d-flex flex-wrap align-items-center">
       <div class="col-12 col-lg-6 p-0 p-md-2" v-for="(city, index) in cities" :key="index">
-        <div :id="city.value" class="city-pic bg-dark text-white w-100">
+        <div
+          :id="city.value"
+          class="city-pic bg-dark text-white w-100"
+          @click="fetchData({name: city.name, value: city.value})"
+        >
           <router-link
-            :to="{name: 'Chosen', params:{ chosenCity: city.value, chosenName: city.name}}"
+            to="/chosen"
             class="router-link d-flex justify-content-center align-items-center"
           >
             <p class="display-3 text-white text-center">{{city.name}}</p>
@@ -19,30 +23,22 @@
 </template>
 
 <script>
-import Fashheader from "@/components/Fashheader.vue"
+import Fashheader from "@/components/Fashheader.vue";
+import { mapActions } from "vuex";
 
 export default {
   name: "Cities",
   components: {
     Fashheader
   },
-  data() {
-    return {
-      cities: [
-        { name: "LONDON", value: "london", url: "../assets/London.jpg" },
-        { name: "NEW YORK", value: "new-york", url: "../assets/New_York.jpg" },
-        {
-          name: "LOS ANGELES",
-          value: "los-angeles",
-          url: "../assets/Los_Angeles.jpg"
-        },
-        {
-          name: "SAN FRANCISCO",
-          value: "san-francisco",
-          url: "../assets/San_Francisco.jpg"
-        }
-      ]
-    };
+  methods: {
+    ...mapActions(["fetchData"])
+  },
+  computed: {
+    cities() {
+      // console.log(window.sessionStorage)
+      return this.$store.state.cities;
+    }
   }
 };
 </script>
@@ -64,8 +60,8 @@ export default {
   background-image: url(../assets/Los_Angeles.jpg);
 }
 
-#san-francisco {
-  background-image: url(../assets/San_Francisco.jpg);
+#miami {
+  background-image: url(../assets/Miami.jpg);
 }
 
 .city-pic {
@@ -92,8 +88,8 @@ export default {
 }
 
 p {
-  font-family: 'Mukta Mahee', sans-serif;
-  font-weight: 400
+  font-family: "Mukta Mahee", sans-serif;
+  font-weight: 400;
 }
 </style>
 
