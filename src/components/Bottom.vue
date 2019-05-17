@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid bg-light">
-        <p></p>
+        <p class="py-3"></p>
     </div>
 </template>
 

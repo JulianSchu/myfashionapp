@@ -36,7 +36,6 @@ export default {
   },
   computed: {
     cities() {
-      // console.log(window.sessionStorage)
       return this.$store.state.cities;
     }
   }

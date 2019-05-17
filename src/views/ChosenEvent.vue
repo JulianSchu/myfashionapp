@@ -34,15 +34,15 @@
           <div class="col-12 p-0 mb-3">
             <p class="mb-0 text-dark font-weight-bold">WHEN:</p>
             <p
-              class="mb-0 text-info"
+              class="mb-0 text-muted"
             >{{oneEvent.date_label}}, {{oneEvent.event_eligibility_type}} {{oneEvent.price}}</p>
           </div>
           <div class="col-12 p-0 mb-3">
             <p class="mb-0 text-dark font-weight-bold">WHERE:</p>
             <p class="mb-0">{{oneEvent.location}}</p>
-            <p class="mb-0 text-muted">
+            <a href="#map" class="mb-0 text-info">
               <i class="far fa-map"></i> View map
-            </p>
+            </a>
           </div>
           <div class="col-12 p-0 mb-3">
             <p class="mb-0 text-dark font-weight-bold">WHAT:</p>
@@ -54,7 +54,28 @@
           </div>
         </div>
       </div>
+      <div id="map" class="container border rounded bg-white d-flex flex-wrap p-0 py-3">
+        <div class="col-12 col-sm-5">
+            <h5>{{oneEvent.address_business_name}}</h5>
+            <div>
+            <p class="mb-0 text-dark">{{oneEvent.address_street_1}}</p>
+            <p class="mb-0 text-dark">{{oneEvent.address_street_2}}</p>
+            <p class="mb-0 text-dark">{{oneEvent.address_zip}}</p>
+            <p class="text-dark">{{oneEvent.address_city}}</p>
+        </div>
+        </div>
+        <div class="map col-12 col-sm-7">
+          <iframe
+            class="w-100 h-100"
+            frameborder="0"
+            style="border:0"
+            :src="addressExtention"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
     </div>
+    <Bottom/>
     <Navbar/>
   </div>
 </template>
@@ -64,6 +85,7 @@ import Fashheader from "@/components/Fashheader.vue";
 import Navbar from "@/components/Navbar.vue";
 import Modal from "@/components/Modal.vue";
 import CurrentCity from "@/components/CurrentCity.vue";
+import Bottom from "@/components/Bottom.vue";
 
 export default {
   name: "ChosenEvent",
@@ -71,11 +93,15 @@ export default {
     Fashheader,
     CurrentCity,
     Navbar,
-    Modal
+    Modal,
+    Bottom
   },
   computed: {
     oneEvent() {
       return this.$store.state.chosenEvent;
+    },
+    addressExtention() {
+      return this.$store.state.addressExtention;
     }
   },
   methods: {
@@ -87,9 +113,6 @@ export default {
 </script>
 
 <style scoped>
-p {
-  font-family: "Mukta Mahee", sans-serif;
-}
 
 .logo {
   min-width: 30px;
@@ -100,5 +123,9 @@ a,
 a:hover {
   text-decoration: none;
   cursor: pointer;
+}
+
+.map {
+  min-height: 300px
 }
 </style>

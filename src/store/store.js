@@ -48,7 +48,9 @@ export default new Vuex.Store({
         selectedSector: {},
         selectedEli: {},
 
-        searchStr: ''
+        searchStr: '',
+
+        addressExtention: ''
     },
     mutations: {
         loadEvents: (state, data) => {
@@ -80,6 +82,8 @@ export default new Vuex.Store({
         },
         setEvent(state, payload) {
             state.chosenEvent = payload;
+            let extentionText = payload.address_business_name.replace('&', 'and');
+            state.addressExtention = 'https://www.google.com/maps/embed/v1/place?key=AIzaSyCjklE1pXhj1neQIzjSX-qzTf7iB_JoiFk&q=' + extentionText.split(' ').join('+') + ',' + payload.address_city;
         },
         onFilter(state, payload) {
             state.selectedType = payload.selectedType;

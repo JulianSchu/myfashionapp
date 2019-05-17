@@ -9,6 +9,10 @@
 </template>
 
 <style>
+p {
+  font-family: "Mukta Mahee", sans-serif;
+}
+
 .container {
   max-width: 900px;
 }
