@@ -9,6 +9,7 @@ import Calender from './views/Calender.vue'
 import News from './views/News.vue'
 import Chats from './views/Chats.vue'
 import ChosenEvent from './views/ChosenEvent.vue'
+import Filteredlist from './views/Filteredlist.vue'
 
 Vue.use(Router)
 
@@ -66,6 +67,12 @@ export default new Router({
       path: '/chosenevent',
       name: 'ChosenEvent',
       component: ChosenEvent,
+      props: true
+    },
+    {
+      path: '/filteredlist',
+      name: 'Filteredlist',
+      component: Filteredlist,
       props: true
     }
   ]

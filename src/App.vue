@@ -17,4 +17,11 @@
 .router-link:hover {
   text-decoration: none;
 }
+
+.hovercard {
+  padding: 15px
+}
+.hovercard:hover {
+  padding: 5px;
+}
 </style>

@@ -34,12 +34,21 @@ export default new Vuex.Store({
             name: '',
             value: ''
         },
+
         event_types: [],
-        headliners: [],    
+        headliners: [],
         events: [],
         chosenEvent: {},
         sector_types: [],
-        event_eligibility_types: []
+        event_eligibility_types: [],
+        
+        filteredEvents: [],
+
+        selectedType: {},
+        selectedSector: {},
+        selectedEli: {},
+
+        searchStr: ''
     },
     mutations: {
         loadEvents: (state, data) => {
@@ -58,6 +67,9 @@ export default new Vuex.Store({
         loadTypeEvents: (state, data) => {
             state.events = data.values.events;
         },
+        loadFilteredEvents: (state, data) => {
+            state.filteredEvents = data.values.events;   
+        },
         setCity(state, payload) {
             state.chosenCity.value = payload.value;
             state.chosenCity.name = payload.name;
@@ -68,6 +80,14 @@ export default new Vuex.Store({
         },
         setEvent(state, payload) {
             state.chosenEvent = payload;
+        },
+        onFilter(state, payload) {
+            state.selectedType = payload.selectedType;
+            state.selectedSector = payload.selectedSector;
+            state.selectedEli = payload.selectedEli;
+        },
+        setSearchStr(state, payload) {
+            state.searchStr = payload
         }
     },
     actions: {
@@ -91,7 +111,7 @@ export default new Vuex.Store({
                 .catch(err => console.log(err))
         },
         getTypeEvents(context, payload) {
-            context.commit('setType', payload)
+            context.commit('setType', payload);
             let url = "https://chicmi.p.rapidapi.com/calendar_in_city/?days=30" + "&types=" +
                 context.state.chosenType.value + "&max_results=0" + "&city=" + context.state.chosenCity.value;
             fetch(url, {
@@ -107,11 +127,37 @@ export default new Vuex.Store({
                 })
                 .catch(err => console.log(err))
         },
-        setEvent({ commit }, payload) {
-            commit('setEvent', payload)
+        setEvent(context, payload) {
+            context.commit('setEvent', payload)
+        },
+        onFilter(context, payload) {
+            context.commit('onFilter', payload);
+            let url = "https://chicmi.p.rapidapi.com/calendar_in_city/?days=30" +
+                "&types=" + context.state.selectedType.value + 
+                "&sectors=" + context.state.selectedSector.value +
+                "&eligibility=" + context.state.selectedEli.value +  
+                "&max_results=0" + 
+                "&city=" + context.state.chosenCity.value;
+            fetch(url, {
+                    headers: {
+                        "X-RapidAPI-Host": "chicmi.p.rapidapi.com",
+                        "X-RapidAPI-Key": "69f6e2d4e8mshb890a3d98c0a4efp119267jsna32dc2df9119"
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    context.commit('loadFilteredEvents', data)
+                })
+                .catch(err => console.log(err))
+        },
+        getSearchStr(context, payload) {
+            context.commit('setSearchStr', payload)
         }
     },
     getters: {
-
+        searchedResults (state) {
+            return payload
+        }
     }
 })

@@ -3,8 +3,8 @@
     <Fashheader/>
     <CurrentCity/>
     <Searchbar/>
-    <List :typeName="chosenType.name" :events="searchedResults"/>
-    <Bottom/> 
+    <List :typeName="selectedType.name" :events="searchedResults"/>
+    <Bottom/>
     <Navbar/>
   </div>
 </template>
@@ -16,30 +16,29 @@ import CurrentCity from "@/components/CurrentCity.vue";
 import Bottom from "@/components/Bottom.vue";
 import List from "@/components/List.vue";
 import Searchbar from "@/components/Searchbar.vue";
-import { mapGetters } from "vuex";
 
 export default {
   name: "Eventlist",
   components: {
     Fashheader,
     Navbar,
-    Bottom,
     CurrentCity,
+    Bottom,
     List,
     Searchbar
   },
   computed: {
-    events() {
-      return this.$store.state.events;
+    filteredEvents() {
+      return this.$store.state.filteredEvents;
     },
-    chosenType() {
-      return this.$store.state.chosenType;
+    selectedType() {
+      return this.$store.state.selectedType;
     },
     searchStr() {
       return this.$store.state.searchStr;
     },
     searchedResults() {
-      return this.events.filter(event => {
+      return this.filteredEvents.filter(event => {
         if (event.event_name_en.toLowerCase().match(this.searchStr))
           return true;
       });

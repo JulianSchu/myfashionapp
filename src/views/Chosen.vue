@@ -2,11 +2,10 @@
   <div>
     <Fashheader/>
     <CurrentCity/>
-    <div class="container-fluid bg-light px-0 py-3">
+    <div class="container-fluid bg-light px-0 pb-3">
       <div class="container container py-3">
-        <div class="col-12 d-flex flex-wrap justify-content-between align-items-center p-0 mb-3">
+        <div class="col-12 p-0 mb-3">
           <h5>Top Events</h5>
-          <Searchbar/>
         </div>
         <Carousel/>
       </div>
@@ -15,7 +14,7 @@
           <h5>All Events in {{chosenCity.name}}</h5>
         </div>
         <div
-          class="col-6 col-lg-3 d-flex flex-wrap justify-content-center py-3"
+          class="hovercard col-6 col-lg-3 d-flex flex-wrap justify-content-center"
           v-for="(event, index) in event_types"
           :key="index"
         >
@@ -23,6 +22,7 @@
         </div>
       </div>
     </div>
+    <Bottom/>
     <Navbar/>
   </div>
 </template>
@@ -32,6 +32,7 @@
 import Fashheader from "@/components/Fashheader.vue";
 import EventType from "@/components/EventType.vue";
 import Navbar from "@/components/Navbar.vue";
+import Bottom from "@/components/Bottom.vue";
 import Carousel from "@/components/Carousel.vue";
 import CurrentCity from "@/components/CurrentCity.vue";
 import Searchbar from "@/components/Searchbar.vue";
@@ -42,6 +43,7 @@ export default {
     Fashheader,
     EventType,
     Navbar,
+    Bottom,
     Carousel,
     CurrentCity,
     Searchbar
@@ -56,3 +58,7 @@ export default {
   }
 };
 </script>
+
+<style>
+
+</style>
