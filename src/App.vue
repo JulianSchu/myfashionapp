@@ -28,4 +28,10 @@ p {
 .hovercard:hover {
   padding: 5px;
 }
+
+a,
+a:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
 </style>

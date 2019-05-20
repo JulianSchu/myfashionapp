@@ -13,7 +13,13 @@
     </div>
     <div class="col-12 col-md-4 d-flex justify-content-between p-0 py-1">
       <label for="sector-type">Sector:</label>
-      <select class="rounded w-50 mx-md-3" name="sector-type" id="sector-type" @change="setSelSector">      >
+      <select
+        class="rounded w-50 mx-md-3"
+        name="sector-type"
+        id="sector-type"
+        @change="setSelSector"
+      >
+        >
         <option selected>All</option>
         <option
           v-for="(sector, index) in sector_types"
@@ -34,8 +40,11 @@
       </select>
     </div>
     <div class="col-12 p-0 pt-3 d-flex justify-content-end">
-      <button type="button" class="btn btn-secondary rounded py-1 px-3 mx-3">Clear</button>
-
+      <button
+        type="button"
+        class="btn btn-secondary rounded py-1 px-3 mx-3"
+        @click="clearFilter()"
+      >Clear</button>
       <router-link to="/Filteredlist">
         <button
           type="button"
@@ -49,6 +58,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import { filter } from "minimatch";
 
 export default {
   name: "Filters",
@@ -86,6 +96,18 @@ export default {
       this.selectedEli.name =
         e.target.options[e.target.selectedIndex].innerHTML;
       this.selectedEli.value = e.target.value;
+    },
+    clearFilter() {
+      let filterOptions = document.getElementsByTagName("select");
+      filterOptions[0].selectedIndex = 0;
+      filterOptions[1].selectedIndex = 0;
+      filterOptions[2].selectedIndex = 0;
+      this.selectedType.name = 'All';
+      this.selectedType.value = '';
+      this.selectedSector.name = 'All'
+      this.selectedSector.value = '';
+      this.selectedEli.name = 'All';
+      this.selectedEli.value = '';
     }
   }
 };

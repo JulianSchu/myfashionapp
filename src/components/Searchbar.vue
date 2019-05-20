@@ -7,14 +7,14 @@
             id="search"
             type="text"
             class="form-control py-0 border border-right-0"
-            :placeholder="searchStr || 'Search for event name'"
+            :placeholder="sStr || 'Search for event name'"
             aria-label="Username"
             aria-describedby="addon-wrapping"
             v-model="sStr"
             @keyup="getSearchStr(sStr.toLowerCase())"
           >
           <div class="input-group-prepend">
-            <button class="bg-white border border-left-0 border-right-0 pr-3" @click="clearSearch(), getSearchStr(sStr.toLowerCase())"><i class="fas fa-times-circle text-muted"></i>
+            <button class="bg-white border border-left-0 border-right-0 pr-3" @click="clearSearch()"><i class="fas fa-times-circle text-muted"></i>
             </button>
             <span
               class="input-group-text text-dark font rounded-right py-0"
@@ -37,7 +37,7 @@ export default {
   name: "Searchbar",
   data() {
     return {
-      sStr: ""
+      sStr: ''
     };
   },
   methods: {
@@ -45,7 +45,9 @@ export default {
     clearSearch(){
         let input = document.getElementById('search')
         input.value = '';
-
+        console.log(input.value);
+        this.sStr = '';
+        this.getSearchStr(this.sStr)
     }
   },
   computed: {

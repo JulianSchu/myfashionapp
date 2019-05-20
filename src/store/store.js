@@ -5,6 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        currentUser: null,
+
         cities: [{
                 name: "London",
                 value: "london",
@@ -41,7 +43,7 @@ export default new Vuex.Store({
         chosenEvent: {},
         sector_types: [],
         event_eligibility_types: [],
-        
+
         filteredEvents: [],
 
         selectedType: {},
@@ -50,7 +52,9 @@ export default new Vuex.Store({
 
         searchStr: '',
 
-        addressExtention: ''
+        addressExtention: '',
+
+        news: []
     },
     mutations: {
         loadEvents: (state, data) => {
@@ -70,7 +74,7 @@ export default new Vuex.Store({
             state.events = data.values.events;
         },
         loadFilteredEvents: (state, data) => {
-            state.filteredEvents = data.values.events;   
+            state.filteredEvents = data.values.events;
         },
         setCity(state, payload) {
             state.chosenCity.value = payload.value;
@@ -92,15 +96,20 @@ export default new Vuex.Store({
         },
         setSearchStr(state, payload) {
             state.searchStr = payload
+        },
+        setCurrentUser(state, payload) {
+            state.currentUser = payload
+        },
+        getNews(state, data) {
+            state.news = data.articles;
+            console.log(state.news)
         }
     },
     actions: {
         fetchData(context, payload) {
             context.commit('setCity', payload);
             let url = "https://chicmi.p.rapidapi.com/calendar_in_city/?days=30&max_results=0" + "&city=" + context.state.chosenCity.value;
-            fetch(
-                    //"https://newsapi.org/v2/everything?q=fashion&language=en&from=2019-05-01&apiKey=2c667d483092480ea9bc07666473f47a"
-                    url, {
+            fetch(url, {
                         headers: {
                             "X-RapidAPI-Host": "chicmi.p.rapidapi.com",
                             "X-RapidAPI-Key": "69f6e2d4e8mshb890a3d98c0a4efp119267jsna32dc2df9119"
@@ -109,7 +118,6 @@ export default new Vuex.Store({
                 )
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
                     context.commit('loadEvents', data)
                 })
                 .catch(err => console.log(err))
@@ -126,7 +134,6 @@ export default new Vuex.Store({
                 })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
                     context.commit('loadTypeEvents', data)
                 })
                 .catch(err => console.log(err))
@@ -137,10 +144,10 @@ export default new Vuex.Store({
         onFilter(context, payload) {
             context.commit('onFilter', payload);
             let url = "https://chicmi.p.rapidapi.com/calendar_in_city/?days=30" +
-                "&types=" + context.state.selectedType.value + 
+                "&types=" + context.state.selectedType.value +
                 "&sectors=" + context.state.selectedSector.value +
-                "&eligibility=" + context.state.selectedEli.value +  
-                "&max_results=0" + 
+                "&eligibility=" + context.state.selectedEli.value +
+                "&max_results=0" +
                 "&city=" + context.state.chosenCity.value;
             fetch(url, {
                     headers: {
@@ -157,10 +164,24 @@ export default new Vuex.Store({
         },
         getSearchStr(context, payload) {
             context.commit('setSearchStr', payload)
-        }
+        },
+        getNews(context) {
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0');
+            let yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
+            let url = "https://newsapi.org/v2/everything?q=fashion&language=en&from=" + today + "&apiKey=2c667d483092480ea9bc07666473f47a";
+            fetch(url)
+            .then(res => res.json()
+            .then(data => {
+                context.commit('getNews', data)            
+            })
+            .catch(err => console.log(err)))
+           }
     },
     getters: {
-        searchedResults (state) {
+        searchedResults(state) {
             return payload
         }
     }
