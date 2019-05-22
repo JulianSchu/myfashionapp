@@ -1,12 +1,11 @@
 import Vue from "vue";
-import Vuex from "vuex"
+import Vuex from "vuex";
+import router from '../router'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        currentUser: null,
-
         cities: [{
                 name: "London",
                 value: "london",
@@ -54,7 +53,21 @@ export default new Vuex.Store({
 
         addressExtention: '',
 
-        news: []
+        news: [],
+
+        userEP: {
+            userName: '',
+            userEmail: '',
+            userPassword: ''
+        },
+
+        currentUser: null,
+        userName: '',
+        email: '',
+        uid: '',
+
+        posts: null,
+        postsUpd: false
     },
     mutations: {
         loadEvents: (state, data) => {
@@ -103,19 +116,43 @@ export default new Vuex.Store({
         getNews(state, data) {
             state.news = data.articles;
             console.log(state.news)
+        },
+        logIn(state, payload) {
+            state.currentUser = payload.currentUser;
+            state.userName = payload.userName;
+            state.email = payload.email;
+            state.uid = payload.uid;
+            console.log(state.userName);
+            console.log(state.uid)
+        },
+        getUserName(state, payload) {
+            state.userEP.userName = payload;
+            console.log(state.userEP.userName)
+        },
+        getEmail(state, payload) {
+            state.userEP.userEmail = payload
+        },
+        getPassword(state, payload) {
+            state.userEP.userPassword = payload
+        },
+        getPosts(state, payload) {
+            state.postsUpd = false
+            state.posts = payload;
+            state.postsUpd = true
+            console.log(state.posts);
         }
     },
     actions: {
         fetchData(context, payload) {
             context.commit('setCity', payload);
+            context.dispatch('getPosts');
             let url = "https://chicmi.p.rapidapi.com/calendar_in_city/?days=30&max_results=0" + "&city=" + context.state.chosenCity.value;
             fetch(url, {
-                        headers: {
-                            "X-RapidAPI-Host": "chicmi.p.rapidapi.com",
-                            "X-RapidAPI-Key": "69f6e2d4e8mshb890a3d98c0a4efp119267jsna32dc2df9119"
-                        }
+                    headers: {
+                        "X-RapidAPI-Host": "chicmi.p.rapidapi.com",
+                        "X-RapidAPI-Key": "69f6e2d4e8mshb890a3d98c0a4efp119267jsna32dc2df9119"
                     }
-                )
+                })
                 .then(res => res.json())
                 .then(data => {
                     context.commit('loadEvents', data)
@@ -173,12 +210,115 @@ export default new Vuex.Store({
             today = yyyy + '-' + mm + '-' + dd;
             let url = "https://newsapi.org/v2/everything?q=fashion&language=en&from=" + today + "&apiKey=2c667d483092480ea9bc07666473f47a";
             fetch(url)
-            .then(res => res.json()
-            .then(data => {
-                context.commit('getNews', data)            
-            })
-            .catch(err => console.log(err)))
-           }
+                .then(res => res.json()
+                    .then(data => {
+                        context.commit('getNews', data)
+                    })
+                    .catch(err => console.log(err)))
+        },
+        logIn(context) {
+            var provider = new firebase.auth.GoogleAuthProvider();
+            firebase
+                .auth()
+                .signInWithPopup(provider)
+                .then(result => {
+                    // The signed-in user info.
+                    var token = result.credential.accessToken;
+
+                    context.commit('logIn', {
+                        currentUser: result.user,
+                        userName: result.user.displayName,
+                        email: result.user.email,
+                        uid: result.user.uid
+                    });
+
+                    console.log("Logged in successfully");
+                    context.dispatch('redirect');
+                    // this.getPost();
+                })
+                .catch(function (error) {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    alert(errorCode, errorMessage);
+                });
+        },
+        getUserName({
+            commit
+        }, payload) {
+            commit('getUserName', payload)
+        },
+        getEmail({
+            commit
+        }, payload) {
+            commit('getEmail', payload)
+        },
+        getPassword({
+            commit
+        }, payload) {
+            commit('getPassword', payload)
+        },
+        signUpEP(context) {
+            let email = context.state.userEP.userEmail.toString();
+            let password = context.state.userEP.userPassword.toString();
+            firebase
+                .auth()
+                .createUserWithEmailAndPassword(email, password)
+                .then(result => {
+                    console.log(result)
+                    context.commit('logIn', {
+                        currentUser: result.user,
+                        userName: context.state.userEP.userName,
+                        email: result.user.email,
+                        uid: result.user.uid
+                    });
+                    context.dispatch('redirect')
+                })
+                .catch(function (error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    alert(errorCode + ':' + errorMessage)
+                });
+        },
+        logInEP(context){
+            let email = context.state.userEP.userEmail.toString();
+            let password = context.state.userEP.userPassword.toString();
+            firebase
+                .auth()
+                .signInWithEmailAndPassword(email, password)
+                .then(result => {
+                    context.commit('logIn', {
+                        currentUser: result.user,
+                        userName: context.state.userEP.userName,
+                        email: result.user.email,
+                        uid: result.user.uid
+                    });
+                    context.dispatch('redirect')
+                })
+                .catch(function(error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    alert(errorCode, errorMessage)
+                  });
+        },
+        redirect() {
+            firebase.auth().onAuthStateChanged(user => {
+                if (user) {
+                    router.push('/cities');
+                }
+            });
+        },
+        getPosts(context) {
+            let city = context.state.chosenCity.name
+            firebase
+                .database()
+                .ref(city + "/posts/")
+                .on("value", function (result) {
+                    let allPost = result.val();
+                    context.commit('getPosts', allPost)
+                });
+        }
     },
     getters: {
         searchedResults(state) {

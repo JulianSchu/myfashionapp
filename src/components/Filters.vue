@@ -58,7 +58,6 @@
 
 <script>
 import { mapActions } from "vuex";
-import { filter } from "minimatch";
 
 export default {
   name: "Filters",
@@ -99,6 +98,9 @@ export default {
     },
     clearFilter() {
       let filterOptions = document.getElementsByTagName("select");
+      for(var i=0; i<filterOptions.length; i++) {
+        console.log(filterOptions[i])
+      }
       filterOptions[0].selectedIndex = 0;
       filterOptions[1].selectedIndex = 0;
       filterOptions[2].selectedIndex = 0;

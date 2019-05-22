@@ -32,7 +32,7 @@ export default {
     Fashheader
   },
   methods: {
-    ...mapActions(["fetchData"])
+    ...mapActions(['fetchData'])
   },
   computed: {
     cities() {

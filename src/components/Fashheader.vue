@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100 bg-light d-flex justify-content-between">
+  <div class="fash w-100 bg-light d-flex justify-content-between">
     <h2 class="ml-3">F</h2>
     <h2>A</h2>
     <h2 class="mr-3">SH</h2>
@@ -17,5 +17,9 @@ export default {
 <style scoped>
 h2 {
   font-family: 'Limelight', cursive;
+}
+
+.fash {
+  margin-top: 2rem
 }
 </style>

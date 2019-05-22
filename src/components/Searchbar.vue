@@ -45,7 +45,6 @@ export default {
     clearSearch(){
         let input = document.getElementById('search')
         input.value = '';
-        console.log(input.value);
         this.sStr = '';
         this.getSearchStr(this.sStr)
     }

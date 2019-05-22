@@ -1,8 +1,3 @@
-import firebase from 'firebase';
-import 'firebase/firestore';
-import 'firebase/auth';
-import store from '@/store/store'
-
 var firebaseConfig = {
     apiKey: "AIzaSyA8O003eqngIfLkQaxWoq7N0lMzlCUg8vU",
     authDomain: "my-project-fashion-app.firebaseapp.com",
@@ -13,7 +8,8 @@ var firebaseConfig = {
     appId: "1:911100419064:web:d8e040a1fdc811a3"
   };
 
-  const database = firebase.initializeApp(firebaseConfig);
-
+  firebase.initializeApp(firebaseConfig);
+  
+  var database = firebase.database()
 
   export default database

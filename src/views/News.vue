@@ -2,11 +2,12 @@
   <div>
     <Fashheader/>
     <h5 class="p-2 text-center">HOT TODAY</h5>
+    <sequential-entrance fromBottom>
     <div class="container-fluid bg-light align-content-around d-flex flex-wrap p-0 py-3">
       <div
         v-for="(one, index) in news"
         :key="index"
-        class="py-3 col-12 col-sm-6 col-md-4"
+        class="hovercard py-3 col-12 col-sm-6 col-md-4"
       >
         <div @click="newTab(one.url)" class="col-12 p-0 d-flex flex-wrap bg-white shadow rounded-lg">
           <div v-if="one.urlToImage" class="col-12 p-0">
@@ -22,6 +23,7 @@
         </div>
       </div>
     </div>
+    </sequential-entrance>
     <Bottom/>
     <Navbar/>
   </div>
