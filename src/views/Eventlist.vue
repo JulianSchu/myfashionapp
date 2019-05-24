@@ -4,6 +4,7 @@
     <CurrentCity/>
     <Searchbar/>
     <List :typeName="chosenType.name" :events="searchedResults"/>
+    <!-- <Noresult :results="searchedResults"/> -->
     <Bottom/> 
     <Navbar/>
   </div>
@@ -16,6 +17,7 @@ import CurrentCity from "@/components/CurrentCity.vue";
 import Bottom from "@/components/Bottom.vue";
 import List from "@/components/List.vue";
 import Searchbar from "@/components/Searchbar.vue";
+import Noresult from "@/components/Noresult.vue";
 import { mapGetters } from "vuex";
 
 export default {
@@ -26,7 +28,8 @@ export default {
     Bottom,
     CurrentCity,
     List,
-    Searchbar
+    Searchbar,
+    Noresult
   },
   computed: {
     events() {

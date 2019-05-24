@@ -19,7 +19,7 @@
           <div class="d-flex flex-wrap">
             <div class="col-6 p-0 pt-3">
               <i
-                :class="{'far fa-heart pr-3': ifFav == false, 'fas fa-heart pr-3 text-danger': checkFav}"
+                :class="{'far fa-heart pr-3': ifFav === false, 'fas fa-heart pr-3 text-danger': checkFav}"
                 @click="getFavorite()"
               ></i>
               <i class="fas fa-plus px-3"></i>
@@ -123,13 +123,19 @@ export default {
     chosenCity() {
       return this.$store.state.chosenCity;
     },
-    checkFav() {    
-      for (var key in this.favorites) {
-        if (this.favorites[key].event_id === this.oneEvent.event_id) {
-          this.ifFav = true;
-          return true; 
-          break;
-        } else { this.ifFav = false}
+    checkFav() {
+      if ((this.favorites == null)) {
+        this.ifFav = false;
+      } else {
+        for (var key in this.favorites) {
+          if (this.favorites[key].event_id === this.oneEvent.event_id) {
+            this.ifFav = true;
+            return true;
+            break;
+          } else {
+            this.ifFav = false;
+          }
+        }
       }
     }
   },
@@ -143,9 +149,10 @@ export default {
         let city = this.chosenCity.name;
         firebase
           .database()
-          .ref("/" + city + "/favorite/" + this.uid + "/" + this.oneEvent.event_id)
+          .ref(
+            "/" + city + "/favorite/" + this.uid + "/" + this.oneEvent.event_id
+          )
           .remove();
-          
       } else {
         let city = this.chosenCity.name;
         var favEvent = this.oneEvent;
@@ -153,7 +160,7 @@ export default {
         // Write the new post's data simultaneously in the posts list and the user's post list.
         var updates = {};
         updates[
-          "/" + city + "/favorite/" + this.uid + "/" + this.oneEvent.event_id 
+          "/" + city + "/favorite/" + this.uid + "/" + this.oneEvent.event_id
         ] = favEvent;
 
         firebase

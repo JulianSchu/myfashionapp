@@ -114,19 +114,15 @@ export default new Vuex.Store({
         },
         getNews(state, data) {
             state.news = data.articles;
-            console.log(state.news)
         },
         logIn(state, payload) {
             state.currentUser = payload.currentUser;
             state.userName = payload.userName;
             state.email = payload.email;
             state.uid = payload.uid;
-            console.log(state.userName);
-            console.log(state.uid)
         },
         getUserName(state, payload) {
             state.userEP.userName = payload;
-            console.log(state.userEP.userName)
         },
         getEmail(state, payload) {
             state.userEP.userEmail = payload
@@ -139,7 +135,6 @@ export default new Vuex.Store({
         },
         getFavorites(state, payload) {
             state.favorites = payload;
-            console.log(state.favorites)
         },
         signOut(state) {
             state.userEP.userName = '';
@@ -208,7 +203,6 @@ export default new Vuex.Store({
                 })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
                     context.commit('loadFilteredEvents', data)
                 })
                 .catch(err => console.log(err))
@@ -275,7 +269,6 @@ export default new Vuex.Store({
                 .auth()
                 .createUserWithEmailAndPassword(email, password)
                 .then(result => {
-                    console.log(result)
                     context.commit('logIn', {
                         currentUser: result.user,
                         userName: context.state.userEP.userName,

@@ -7,7 +7,7 @@
             id="search"
             type="text"
             class="form-control py-0 border border-right-0"
-            :placeholder="sStr || 'Search for event name'"
+            :placeholder="searchStr || 'Search for event name'"
             aria-label="Username"
             aria-describedby="addon-wrapping"
             v-model="sStr"

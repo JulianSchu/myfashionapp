@@ -16,7 +16,6 @@ export default {
   name: "Favorites",
   computed: {
     favorites() {
-      console.log(this.$store.state.favorites)
       return this.$store.state.favorites;
     },
     uid() {

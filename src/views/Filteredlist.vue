@@ -4,6 +4,7 @@
     <CurrentCity/>
     <Searchbar/>
     <List :typeName="selectedType.name" :events="searchedResults"/>
+    <!-- <Noresult :results="searchedResults"/> -->
     <Bottom/>
     <Navbar/>
   </div>
@@ -16,6 +17,7 @@ import CurrentCity from "@/components/CurrentCity.vue";
 import Bottom from "@/components/Bottom.vue";
 import List from "@/components/List.vue";
 import Searchbar from "@/components/Searchbar.vue";
+import Noresult from "@/components/Noresult.vue";
 
 export default {
   name: "Eventlist",
@@ -25,7 +27,8 @@ export default {
     CurrentCity,
     Bottom,
     List,
-    Searchbar
+    Searchbar,
+    Noresult
   },
   computed: {
     filteredEvents() {
