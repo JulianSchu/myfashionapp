@@ -60,14 +60,13 @@ export default new Vuex.Store({
             userEmail: '',
             userPassword: ''
         },
-
         currentUser: null,
         userName: '',
         email: '',
         uid: '',
-
         posts: null,
-        postsUpd: false
+
+        favorites: null
     },
     mutations: {
         loadEvents: (state, data) => {
@@ -136,16 +135,31 @@ export default new Vuex.Store({
             state.userEP.userPassword = payload
         },
         getPosts(state, payload) {
-            state.postsUpd = false
             state.posts = payload;
-            state.postsUpd = true
-            console.log(state.posts);
+        },
+        getFavorites(state, payload) {
+            state.favorites = payload;
+            console.log(state.favorites)
+        },
+        signOut(state) {
+            state.userEP.userName = '';
+            state.userEP.userEmail = '';
+            state.userEP.userPassword = '';
+
+            state.currentUser = null;
+            state.userName = '';
+            state.email = '';
+            state.uid = '';
+
+            state.posts = null;
         }
     },
     actions: {
         fetchData(context, payload) {
             context.commit('setCity', payload);
             context.dispatch('getPosts');
+            context.dispatch('getFavorites');
+
             let url = "https://chicmi.p.rapidapi.com/calendar_in_city/?days=30&max_results=0" + "&city=" + context.state.chosenCity.value;
             fetch(url, {
                     headers: {
@@ -231,10 +245,7 @@ export default new Vuex.Store({
                         email: result.user.email,
                         uid: result.user.uid
                     });
-
-                    console.log("Logged in successfully");
-                    context.dispatch('redirect');
-                    // this.getPost();
+                    router.push('/cities')
                 })
                 .catch(function (error) {
                     var errorCode = error.code;
@@ -271,7 +282,7 @@ export default new Vuex.Store({
                         email: result.user.email,
                         uid: result.user.uid
                     });
-                    context.dispatch('redirect')
+                    router.push('/cities')
                 })
                 .catch(function (error) {
                     // Handle Errors here.
@@ -280,7 +291,7 @@ export default new Vuex.Store({
                     alert(errorCode + ':' + errorMessage)
                 });
         },
-        logInEP(context){
+        logInEP(context) {
             let email = context.state.userEP.userEmail.toString();
             let password = context.state.userEP.userPassword.toString();
             firebase
@@ -293,21 +304,14 @@ export default new Vuex.Store({
                         email: result.user.email,
                         uid: result.user.uid
                     });
-                    context.dispatch('redirect')
+                    router.push('/cities')
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     // Handle Errors here.
                     var errorCode = error.code;
                     var errorMessage = error.message;
                     alert(errorCode, errorMessage)
-                  });
-        },
-        redirect() {
-            firebase.auth().onAuthStateChanged(user => {
-                if (user) {
-                    router.push('/cities');
-                }
-            });
+                });
         },
         getPosts(context) {
             let city = context.state.chosenCity.name
@@ -318,6 +322,25 @@ export default new Vuex.Store({
                     let allPost = result.val();
                     context.commit('getPosts', allPost)
                 });
+        },
+        getFavorites(context) {
+            let city = context.state.chosenCity.name;
+            let uid = context.state.uid;
+            firebase
+                .database()
+                .ref(city + "/favorite/" + uid + "/")
+                .on("value", function (result) {
+                    let allFavorites = result.val();
+                    context.commit('getFavorites', allFavorites)
+                });
+        },
+        signOut(context) {
+            firebase.auth().signOut().then(function () {
+                context.commit('signOut')
+                router.push('/');
+            }).catch(function (error) {
+                console.log(error.code, error.message)
+            });
         }
     },
     getters: {

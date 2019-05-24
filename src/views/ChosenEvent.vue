@@ -18,7 +18,10 @@
           <Modal :oneEvent="oneEvent"/>
           <div class="d-flex flex-wrap">
             <div class="col-6 p-0 pt-3">
-              <i class="far fa-heart pr-3"></i>
+              <i
+                :class="{'far fa-heart pr-3': ifFav == false, 'fas fa-heart pr-3 text-danger': checkFav}"
+                @click="getFavorite()"
+              ></i>
               <i class="fas fa-plus px-3"></i>
               <i class="fas fa-share pl-3"></i>
             </div>
@@ -56,13 +59,13 @@
       </div>
       <div id="map" class="container border rounded bg-white d-flex flex-wrap p-0 py-3">
         <div class="col-12 col-sm-5">
-            <h5>{{oneEvent.address_business_name}}</h5>
-            <div>
+          <h5>{{oneEvent.address_business_name}}</h5>
+          <div>
             <p class="mb-0 text-dark">{{oneEvent.address_street_1}}</p>
             <p class="mb-0 text-dark">{{oneEvent.address_street_2}}</p>
             <p class="mb-0 text-dark">{{oneEvent.address_zip}}</p>
             <p class="text-dark">{{oneEvent.address_city}}</p>
-        </div>
+          </div>
         </div>
         <div class="map col-12 col-sm-7">
           <iframe
@@ -89,6 +92,11 @@ import Bottom from "@/components/Bottom.vue";
 
 export default {
   name: "ChosenEvent",
+  data() {
+    return {
+      ifFav: false
+    };
+  },
   components: {
     Fashheader,
     CurrentCity,
@@ -97,23 +105,68 @@ export default {
     Bottom
   },
   computed: {
+    userName() {
+      return this.$store.state.userName;
+    },
+    uid() {
+      return this.$store.state.uid;
+    },
     oneEvent() {
       return this.$store.state.chosenEvent;
     },
+    favorites() {
+      return this.$store.state.favorites;
+    },
     addressExtention() {
       return this.$store.state.addressExtention;
+    },
+    chosenCity() {
+      return this.$store.state.chosenCity;
+    },
+    checkFav() {    
+      for (var key in this.favorites) {
+        if (this.favorites[key].event_id === this.oneEvent.event_id) {
+          this.ifFav = true;
+          return true; 
+          break;
+        } else { this.ifFav = false}
+      }
     }
   },
   methods: {
     newTab(link) {
       window.open(link, "_blank");
+    },
+    getFavorite() {
+      if (this.ifFav) {
+        console.log("ok");
+        let city = this.chosenCity.name;
+        firebase
+          .database()
+          .ref("/" + city + "/favorite/" + this.uid + "/" + this.oneEvent.event_id)
+          .remove();
+          
+      } else {
+        let city = this.chosenCity.name;
+        var favEvent = this.oneEvent;
+
+        // Write the new post's data simultaneously in the posts list and the user's post list.
+        var updates = {};
+        updates[
+          "/" + city + "/favorite/" + this.uid + "/" + this.oneEvent.event_id 
+        ] = favEvent;
+
+        firebase
+          .database()
+          .ref()
+          .update(updates);
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-
 .logo {
   min-width: 30px;
   max-width: 40px;
@@ -126,6 +179,6 @@ a:hover {
 }
 
 .map {
-  min-height: 300px
+  min-height: 300px;
 }
 </style>

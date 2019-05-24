@@ -10,15 +10,17 @@
           <small>Cities</small>
         </p>
       </router-link>
-      <router-link
-        to="/profile"
-        class="router-link text-dark d-flex flex-wrap justify-content-center mt-2"
-      >
-        <i class="fas fa-user-circle col-12 text-center p-0"></i>
-        <p class="mb-0">
-          <small>Profile</small>
-        </p>
-      </router-link>
+      <div @click="getNews()">
+        <router-link
+          to="/news"
+          class="router-link text-dark d-flex flex-wrap justify-content-center mt-2"
+        >
+          <i class="far fa-newspaper col-12 text-center p-0"></i>
+          <p class="mb-0">
+            <small>News</small>
+          </p>
+        </router-link>
+      </div>
       <router-link
         to="/chosen"
         class="router-link text-dark d-flex flex-wrap justify-content-center mt-2"
@@ -38,18 +40,16 @@
             <small>Chats</small>
           </p>
         </router-link>
-      </div>
-      <div @click="getNews()">
-        <router-link
-          to="/news"
-          class="router-link text-dark d-flex flex-wrap justify-content-center mt-2"
-        >
-          <i class="far fa-newspaper col-12 text-center p-0"></i>
-          <p class="mb-0">
-            <small>News</small>
-          </p>
-        </router-link>
-      </div>
+      </div> 
+      <router-link
+        to="/profile"
+        class="router-link text-dark d-flex flex-wrap justify-content-center mt-2"
+      >
+        <i class="fas fa-user-circle col-12 text-center p-0"></i>
+        <p class="mb-0">
+          <small>Profile</small>
+        </p>
+      </router-link>
     </div>
   </div>
 </template>

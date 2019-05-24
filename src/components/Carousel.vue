@@ -62,6 +62,5 @@ export default {
 .carousel-control-prev,
 .carousel-control-next {
   height: auto;
-  width: auto;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div id="chatDisplay" class="display container d-flex flex-wrap align-items-end rounded-lg border py-3">
-    <div v-for="(post, index) in posts" :key="index" class="w-100 d-flex flex-wrap" :class="{'justify-content-end': post.uid == uid}">
+    <div v-for="(post, index) in posts" :key="index" class="w-100 d-flex flex-wrap m-0" :class="{'justify-content-end': post.uid == uid}">
       <div class="entry d-flex flex-wrap">
         <p class="m-0 text-white w-100">{{ post.author }}</p>
         <div class="chatbody rounded-lg w-100 p-1 d-flex align-items-center">
@@ -15,11 +15,6 @@
 <script>
 export default {
   name: "ChatDisplay",
-  data() {
-    return {
-      currentUser: false,
-    };
-  },
   computed: {
     posts() {
     return this.$store.state.posts;
