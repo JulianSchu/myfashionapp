@@ -99,11 +99,8 @@ export default {
     clearFilter() {
       let filterOptions = document.getElementsByTagName("select");
       for(var i=0; i<filterOptions.length; i++) {
-        console.log(filterOptions[i])
+        filterOptions[i].selectedIndex = 0;
       }
-      filterOptions[0].selectedIndex = 0;
-      filterOptions[1].selectedIndex = 0;
-      filterOptions[2].selectedIndex = 0;
       this.selectedType.name = 'All';
       this.selectedType.value = '';
       this.selectedSector.name = 'All'
